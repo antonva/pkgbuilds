@@ -1,0 +1,38 @@
+# Maintainer: Anton Vilhelm Ásgeirsson <anton.v.asgeirsson at gmail.com>
+
+pkgname='soapysdr-hackrf-git'
+pkgver=0.1.0.3.g27eb0d4
+pkgrel=1
+pkgdesc="HackRF module for SoapySDR."
+arch=('x86_64')
+url="https://github.com/pothosware/SoapyHackRF"
+license=('unknown')
+groups=()
+depends=('soapysdr' 'hackrf')
+makedepends=('git' 'cmake') 
+provides=("${pkgname%}")
+conflicts=("${pkgname%}")
+replaces=()
+backup=()
+options=()
+install=
+source=("$pkgname::git://github.com/pothosware/SoapyHackRF.git")
+noextract=()
+md5sums=('SKIP')
+
+pkgver() {
+	cd "$pkgname"
+    #Git tags available.
+	printf "%s" "$(git describe --long | sed 's/soapy-hackrf-//;s/-/./g')"
+}
+
+build() {
+	cd "$pkgname"
+    cmake ./
+    make 
+}
+
+package() {
+	cd "$pkgname"
+	make DESTDIR="$pkgdir/" install
+}

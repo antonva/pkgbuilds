@@ -1,0 +1,38 @@
+# Maintainer: Anton Vilhelm Ásgeirsson <anton.v.asgeirsson at gmail.com>
+
+pkgname='soapysdr-git'
+pkgver=0.3.1.20.ga9b9378
+pkgrel=1
+pkgdesc="Vendor and platform neutral SDR support library."
+arch=('x86_64')
+url="https://github.com/pothosware/SoapySDR"
+license=('unknown')
+groups=()
+depends=('python2-numpy' 'swig')
+makedepends=('git' 'cmake') 
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%}")
+replaces=()
+backup=()
+options=()
+install=
+source=("$pkgname::git://github.com/pothosware/SoapySDR.git")
+noextract=()
+md5sums=('SKIP')
+
+pkgver() {
+	cd "$pkgname"
+    #Git tags available.
+	printf "%s" "$(git describe --long | sed 's/soapy-sdr-//;s/-/./g')"
+}
+
+build() {
+	cd "$pkgname"
+    cmake ./
+    make 
+}
+
+package() {
+	cd "$pkgname"
+	make DESTDIR="$pkgdir/" install
+}

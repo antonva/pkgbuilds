@@ -1,0 +1,39 @@
+# Maintainer: Anton Vilhelm Ásgeirsson <anton.v.asgeirsson at gmail.com>
+
+pkgname='cubicsdr-git'
+pkgver=0.1.10.alpha.pfbch.single.issue150.3.g8d0d222
+pkgrel=1
+pkgdesc="Cross-Platform and Open-Source Software-Defined Radio Application."
+arch=('x86_64')
+url="http://cubicsdr.com"
+license=('GPL')
+groups=()
+depends=('pulseaudio' 'liquid-dsp-git' 'fftw' 'rtl-sdr' 'wxgtk')
+makedepends=('git' 'cmake' 'swig') 
+provides=("${pkgname%}")
+conflicts=("${pkgname%}")
+replaces=()
+backup=()
+options=()
+install="$pkgname.install"
+source=("$pkgname::git://github.com/cjcliffe/CubicSDR.git")
+noextract=()
+md5sums=('SKIP')
+
+pkgver() {
+	cd "$pkgname"
+    #Git tags available.
+	printf "%s" "$(git describe --tags | sed 's/-/./g')"
+}
+
+build() {
+	cd "$pkgname"
+    cmake ./
+    make 
+}
+
+package() {
+	cd "$pkgname/x64"
+    mkdir -p "$pkgdir/opt/CubicSDR"
+	cp * "$pkgdir/opt/CubicSDR" 
+}

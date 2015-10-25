@@ -1,0 +1,3 @@
+post_install() {
+    echo "NOTICE: Consider adding /opt/CubicSDR to your PATH variable."
+}
