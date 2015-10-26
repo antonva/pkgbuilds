@@ -21,13 +21,13 @@ noextract=()
 md5sums=('SKIP')
 
 pkgver() {
-	cd "$pkgname"
+    cd "$pkgname"
     #Git tags available.
-	printf "%s" "$(git describe --tags | sed 's/-/./g')"
+    printf "%s" "$(git describe --tags | sed 's/-/./g')"
 }
 
 build() {
-	cd "$pkgname"
+    cd "$pkgname"
     git checkout soapysdr-support
     sed -i '1i #include <atomic>' "src/panel/WaterfallPanel.cpp"
     cmake ./
@@ -35,7 +35,7 @@ build() {
 }
 
 package() {
-	cd "$pkgname/x64"
+    cd "$pkgname/x64"
     mkdir -p "$pkgdir/opt/CubicSDR"
-	cp * "$pkgdir/opt/CubicSDR" 
+    cp * "$pkgdir/opt/CubicSDR" 
 }
